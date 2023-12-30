@@ -1,8 +1,12 @@
-import pytest
+from __future__ import annotations
+
 from multiprocessing import Process
+
 import numpy as np
-from rlay import ServerEnv, ClientBackend
 from tqdm import trange
+
+from rlay import ClientBackend, ServerEnv
+
 
 def run_server():
     env = ServerEnv()
@@ -14,9 +18,11 @@ def run_server():
             env.reset()
     env.close()
 
+
 def run_client():
     server = ClientBackend("CartPole-v1")
     server.run()
+
 
 def test_environment_interaction_T():
     server_process = Process(target=run_server)

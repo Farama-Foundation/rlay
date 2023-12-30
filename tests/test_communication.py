@@ -1,13 +1,18 @@
-import pytest
+from __future__ import annotations
+
+from multiprocessing import Process
+
 import gymnasium as gym
 import numpy as np
-from multiprocessing import Process
-from rlay import ServerBackend, ClientEnv
+
+from rlay import ClientEnv, ServerBackend
 
 
 class EmptyEnv(gym.Env):
     def __init__(self, obs_size: int = 4):
-        self.observation_space = gym.spaces.Box(low=0, high=1, shape=(obs_size,), dtype=np.float32)
+        self.observation_space = gym.spaces.Box(
+            low=0, high=1, shape=(obs_size,), dtype=np.float32
+        )
         self.action_space = gym.spaces.Discrete(2)
         self.zeros = np.zeros(obs_size, dtype=np.float32)
 
@@ -50,4 +55,3 @@ def test_environment_interaction():
 
     server_process.terminate()
     server_process.join()
-
