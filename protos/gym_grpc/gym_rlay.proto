@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+
+package env;
+
+service Env {
+
+  rpc Initialize(EnvID) returns (Status) {}
+
+  rpc Reset(ResetArgs) returns (StepReturn) {}
+
+  rpc Step(Action) returns (StepReturn) {}
+
+}
+
+
+message EnvID {
+  string env_id = 1;
+}
+
+message Status {
+  bool status = 1;
+}
+
+message NumpyArray {
+    bytes data = 1;
+    bytes shape = 2;
+    string dtype = 3;
+}
+
+message NDArray {
+  repeated int32 shape = 1;
+  repeated float data = 2;
+  string dtype = 3;
+}
+
+message Action {
+  int32 action = 1;
+}
+
+message Seed {
+  int32 seed = 1;
+}
+
+message Options {
+  map<string, google.protobuf.Value> params = 1;
+}
+
+message Info {
+  map<string, google.protobuf.Value> params = 1;
+}
+
+message ResetArgs {
+  optional int32 seed = 1;
+  map<string, google.protobuf.Value> options = 2;
+}
+
+//message ResetReturn {
+//  NDArray obs = 1;
+//  map<string, google.protobuf.Value> info = 2;
+//}
+
+message StepReturn {
+  NDArray obs = 1;
+  float reward = 2;
+  bool terminated = 3;
+  bool truncated = 4;
+  map<string, google.protobuf.Value> info = 5;
+}
+
+message GymnasiumMessage {
+  oneof message {
+    StepReturn step_return = 1;
+    ResetArgs reset_args = 3;
+    NDArray action = 4;
+    bool close = 5;
+    bool request = 6;
+    bool status = 7;
+  }
+}

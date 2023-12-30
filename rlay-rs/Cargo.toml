@@ -1,0 +1,15 @@
+[package]
+name = "rlay-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+parking_lot = "0.12.1"
+protobuf = "3.2.0"
+shared_memory = "0.12.4"
+ipc-channel = "0.16.0"
+memmap2 = "0.5.10"
+libc = "0.2.140"
+memmap = "0.7.0"

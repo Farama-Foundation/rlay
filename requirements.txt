@@ -1,0 +1,4 @@
+grpcio-tools~=1.50.0
+tqdm~=4.64.1
+numpy~=1.21
+typarse==3.4.0

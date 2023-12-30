@@ -1,20 +1,53 @@
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://pre-commit.com/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+# RLay
 
-Rlay is a simple library for creating new Farama projects, following the structure of Gymnasium. 
+NOTE: readme is temporarily outdated, but the code for the python version is fairly solid, and this approach will be continued going forward
 
-We have a public discord server (which we also use to coordinate development work) that you can join here: https://discord.gg/bnJ6kubTg6
+RLay (pronounced like Relay) is a tool that enables interacting with [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) environments
+over a network connection (including locally) via memory mapped files ("MemServer").
 
-## Installation
+The potential applications include:
 
-Follow these steps to set up a new project which follows the Farama standards:
+- Simulating the environment on a separate machine
+- Interfacing with environments built with different languages, without a dedicated Python link
+- (future) Interacting with environments running in real time
 
-1. Clone (or otherwise download) rlay to your local system.
-2. Navigate into the directory you just created.
-3. Run `bash initialize.sh`.
-4. Enter the name of your new project.
-5. Run `cd ../<project-name>`, where `<project-name>` is the same as you entered above.
-6. Your project is now ready for development!
+The main intent is interfacing with games built in powerful engines like Unity and Unreal.
+Adding a client or a server in the environment code will expose it for interaction with the standard
+Gymnasium API.
 
-## Support the Farama Foundation
+There are two possible paradigms -- the environment runs either as a server, or as a client.
 
-If you are financially able to do so and would like to support the development of Gymnasium, please join others in the community in [donating to us](https://github.com/sponsors/Farama-Foundation).
+ClientEnv has a relatively intuitive interpretation. The server maintains an instance of the environment, 
+and calls its methods according to the MemServer calls. The user (or the RL algorithm) calls the methods of `ClientEnv`, 
+which in turn calls the MemServer methods on the server.
+
+ServerEnv works the other way around. It expects that the user creates a server which implements a policy, 
+and the environment lives in a client which can query that policy. When the client queries the server, it sends an observation, 
+and receives the following observation.
+
+
+In summary, in ClientEnv:
+- The underlying environment logic lives on the server
+- The `Env` instance exists in the client
+- The algorithmic logic is in the client
+
+In ServerEnv:
+- The underlying environment logic is in the client
+- The `Env` instance exists on the server
+- The algorithmic logic is on the server
+
+
+The `ServerEnv` implementation is inspired by ML-Agents, but we generally recommend using `ClientEnv`.
+
+TODO: profiling with fast/slow languages on the server/client
+
+## Protocol
+
+ClientBackend - ServerEnv:
+- At the beginning, there's a handshake, client sends, server also sends
+- Backend starts execution, performing initial setup
+- Backend sends an initial request, the response must be a ResetArgs
+- In a loop, Backend sends current ORTTI and listens for a response. Response can be either ResetArgs or Action
+- 
+
+IMPORTANT NOTE: `step` returns only after the backend reaches a new decision step and sends a new request.
