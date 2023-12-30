@@ -26,12 +26,6 @@ class ServerEnv(gym.Env):
 
         old_msg = self.communicator.receive_message()  # 1
 
-        # obs = decode(msg.step_return.obs)
-        # reward = msg.step_return.reward
-        # terminated = msg.step_return.terminated
-        # truncated = msg.step_return.truncated
-        # info = unwrap_dict(msg.step_return.info)
-
         self.communicator.send_message(reset_args)  # 2
 
         msg = self.communicator.receive_message()  # 1
