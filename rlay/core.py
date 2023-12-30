@@ -1,19 +1,33 @@
 from __future__ import annotations
 
+import abc
 import mmap
 import os
 import time
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 
-from rlay.gym_grpc.gym_rlay_pb2 import GymnasiumMessage, StepReturn, ResetArgs
-from rlay.utils import encode, wrap_dict
 from rlay.gym_grpc import gym_rlay_pb2
+from rlay.gym_grpc.gym_rlay_pb2 import GymnasiumMessage, ResetArgs, StepReturn
+from rlay.utils import encode, wrap_dict
 
 
-class Communicator:
+class BaseCommunicator(abc.ABC):
+    @abc.abstractmethod
+    def send_message(self, msg: gym_rlay_pb2.GymnasiumMessage):
+        pass
+
+    @abc.abstractmethod
+    def receive_message(self) -> gym_rlay_pb2.GymnasiumMessage | None:
+        pass
+
+    @abc.abstractmethod
+    def close(self):
+        pass
+
+
+class Communicator(BaseCommunicator):
     def __init__(self, name: str, size: int = 1024, create: bool = True):
         self.name = name
         self.size = size
@@ -50,7 +64,7 @@ class Communicator:
         self.map[5 : len(serialized_msg) + 5] = serialized_msg
         self.map[0] = self.wait_code
 
-    def receive_message(self) -> Optional[gym_rlay_pb2.GymnasiumMessage]:
+    def receive_message(self) -> gym_rlay_pb2.GymnasiumMessage | None:
         while self.map[0] != self.active_code:
             pass
         msg_len = int.from_bytes(self.map[1:5], byteorder="little")
@@ -65,13 +79,12 @@ class Communicator:
 
 
 def create_gymnasium_message(
-    step_return: Optional[tuple[np.ndarray, float, bool, bool, dict[str, Any]]] = None,
-    reset_return: Optional[tuple[np.ndarray, dict[str, Any]]] = None,
-    reset_args: Optional[tuple[int, dict[str, Any]]] = None,
-    action: Optional[np.ndarray] = None,
-    close: Optional[bool] = None,
+    step_return: tuple[np.ndarray, float, bool, bool, dict[str, Any]] | None = None,
+    reset_return: tuple[np.ndarray, dict[str, Any]] | None = None,
+    reset_args: tuple[int, dict[str, Any]] | None = None,
+    action: np.ndarray | None = None,
+    close: bool | None = None,
 ) -> GymnasiumMessage:
-
     message = GymnasiumMessage()
 
     if step_return is not None:
