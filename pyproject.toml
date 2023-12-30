@@ -24,6 +24,10 @@ classifiers = [
 ]
 dependencies = [
     "numpy >=1.21.0",
+    "gymnasium>=0.29.1",
+    "grpcio~=1.60.0",
+    "grpcio-tools~=1.60.0",
+    "tqdm~=4.64.1"
 ]
 dynamic = ["version"]
 

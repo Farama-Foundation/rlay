@@ -2,5 +2,4 @@ grpcio~=1.60.0
 grpcio-tools~=1.60.0
 tqdm~=4.64.1
 numpy~=1.21
-typarse==3.4.0
 gymnasium>=0.29.1
