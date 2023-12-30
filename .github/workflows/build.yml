@@ -1,0 +1,35 @@
+name: build
+on: [pull_request, push]
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  build-all:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9', '3.10']
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+           docker build -f bin/all-py.Dockerfile \
+             --build-arg PYTHON_VERSION=${{ matrix.python-version }} \
+             --tag rlay-all-docker .
+      - name: Run tests
+        run: docker run rlay-all-docker pytest tests/*
+      - name: Run doctest
+        run: docker run rlay-all-docker pytest --doctest-modules rlay/
+
+  build-necessary:
+    runs-on:
+      ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+           docker build -f bin/necessary-py.Dockerfile \
+             --build-arg PYTHON_VERSION='3.10' \
+             --tag rlay-necessary-docker .
+      - name: Run tests
+        run: |
+           docker run rlay-necessary-docker pytest tests/test_core.py tests/envs/test_compatibility.py tests/envs/test_envs.py tests/spaces
