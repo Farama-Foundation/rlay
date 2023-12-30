@@ -5,7 +5,7 @@ import numpy as np
 
 from rlay.core import Communicator, create_gymnasium_message
 from rlay.gym_grpc import gym_rlay_pb2
-from rlay.utils import wrap_dict, decode, unwrap_dict
+from rlay.utils import decode, unwrap_dict, wrap_dict
 
 
 class ServerEnv(gym.Env):

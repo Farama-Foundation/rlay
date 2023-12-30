@@ -1,7 +1,9 @@
-from rlay import ServerEnv
-
 import numpy as np
 from tqdm import trange
+
+from rlay import ServerEnv
+
+
 env = ServerEnv()
 
 env.reset()

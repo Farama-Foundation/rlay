@@ -95,5 +95,3 @@ impl Communicator {
         std::fs::remove_file(format!("/tmp/{}", self.name))
     }
 }
-
-

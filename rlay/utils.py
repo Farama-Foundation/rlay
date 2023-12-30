@@ -4,11 +4,9 @@ from typing import Any
 
 import google.protobuf.internal.containers
 import numpy as np
+from google.protobuf.struct_pb2 import Struct, Value
 
 from rlay.gym_grpc import gym_rlay_pb2
-
-from google.protobuf.struct_pb2 import Value
-from google.protobuf.struct_pb2 import Struct
 
 
 def encode(array: np.ndarray | int) -> gym_rlay_pb2.NDArray:

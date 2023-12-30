@@ -5,7 +5,7 @@ import gymnasium as gym
 from rlay.core import Communicator, create_gymnasium_message
 from rlay.gym_grpc import gym_rlay_pb2
 from rlay.gym_grpc.gym_rlay_pb2 import GymnasiumMessage
-from rlay.utils import decode, unwrap_dict, encode, wrap_dict
+from rlay.utils import decode, encode, unwrap_dict, wrap_dict
 
 
 class ClientBackend:

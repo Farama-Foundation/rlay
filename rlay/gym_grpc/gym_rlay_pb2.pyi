@@ -1,8 +1,13 @@
-from google.protobuf import struct_pb2 as _struct_pb2
-from google.protobuf.internal import containers as _containers
+from typing import ClassVar as _ClassVar
+from typing import Iterable as _Iterable
+from typing import Mapping as _Mapping
+from typing import Optional as _Optional
+from typing import Union as _Union
+
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from google.protobuf import struct_pb2 as _struct_pb2
+from google.protobuf.internal import containers as _containers
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -32,20 +37,35 @@ class GymnasiumMessage(_message.Message):
     reset_args: ResetArgs
     status: bool
     step_return: StepReturn
-    def __init__(self, step_return: _Optional[_Union[StepReturn, _Mapping]] = ..., reset_args: _Optional[_Union[ResetArgs, _Mapping]] = ..., action: _Optional[_Union[NDArray, _Mapping]] = ..., close: bool = ..., request: bool = ..., status: bool = ...) -> None: ...
+    def __init__(
+        self,
+        step_return: _Optional[_Union[StepReturn, _Mapping]] = ...,
+        reset_args: _Optional[_Union[ResetArgs, _Mapping]] = ...,
+        action: _Optional[_Union[NDArray, _Mapping]] = ...,
+        close: bool = ...,
+        request: bool = ...,
+        status: bool = ...,
+    ) -> None: ...
 
 class Info(_message.Message):
     __slots__ = ["params"]
+
     class ParamsEntry(_message.Message):
         __slots__ = ["key", "value"]
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: str
         value: _struct_pb2.Value
-        def __init__(self, key: _Optional[str] = ..., value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ...) -> None: ...
+        def __init__(
+            self,
+            key: _Optional[str] = ...,
+            value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ...,
+        ) -> None: ...
     PARAMS_FIELD_NUMBER: _ClassVar[int]
     params: _containers.MessageMap[str, _struct_pb2.Value]
-    def __init__(self, params: _Optional[_Mapping[str, _struct_pb2.Value]] = ...) -> None: ...
+    def __init__(
+        self, params: _Optional[_Mapping[str, _struct_pb2.Value]] = ...
+    ) -> None: ...
 
 class NDArray(_message.Message):
     __slots__ = ["data", "dtype", "shape"]
@@ -55,7 +75,12 @@ class NDArray(_message.Message):
     data: _containers.RepeatedScalarFieldContainer[float]
     dtype: str
     shape: _containers.RepeatedScalarFieldContainer[int]
-    def __init__(self, shape: _Optional[_Iterable[int]] = ..., data: _Optional[_Iterable[float]] = ..., dtype: _Optional[str] = ...) -> None: ...
+    def __init__(
+        self,
+        shape: _Optional[_Iterable[int]] = ...,
+        data: _Optional[_Iterable[float]] = ...,
+        dtype: _Optional[str] = ...,
+    ) -> None: ...
 
 class NumpyArray(_message.Message):
     __slots__ = ["data", "dtype", "shape"]
@@ -65,35 +90,56 @@ class NumpyArray(_message.Message):
     data: bytes
     dtype: str
     shape: bytes
-    def __init__(self, data: _Optional[bytes] = ..., shape: _Optional[bytes] = ..., dtype: _Optional[str] = ...) -> None: ...
+    def __init__(
+        self,
+        data: _Optional[bytes] = ...,
+        shape: _Optional[bytes] = ...,
+        dtype: _Optional[str] = ...,
+    ) -> None: ...
 
 class Options(_message.Message):
     __slots__ = ["params"]
+
     class ParamsEntry(_message.Message):
         __slots__ = ["key", "value"]
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: str
         value: _struct_pb2.Value
-        def __init__(self, key: _Optional[str] = ..., value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ...) -> None: ...
+        def __init__(
+            self,
+            key: _Optional[str] = ...,
+            value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ...,
+        ) -> None: ...
     PARAMS_FIELD_NUMBER: _ClassVar[int]
     params: _containers.MessageMap[str, _struct_pb2.Value]
-    def __init__(self, params: _Optional[_Mapping[str, _struct_pb2.Value]] = ...) -> None: ...
+    def __init__(
+        self, params: _Optional[_Mapping[str, _struct_pb2.Value]] = ...
+    ) -> None: ...
 
 class ResetArgs(_message.Message):
     __slots__ = ["options", "seed"]
+
     class OptionsEntry(_message.Message):
         __slots__ = ["key", "value"]
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: str
         value: _struct_pb2.Value
-        def __init__(self, key: _Optional[str] = ..., value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ...) -> None: ...
+        def __init__(
+            self,
+            key: _Optional[str] = ...,
+            value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ...,
+        ) -> None: ...
     OPTIONS_FIELD_NUMBER: _ClassVar[int]
     SEED_FIELD_NUMBER: _ClassVar[int]
     options: _containers.MessageMap[str, _struct_pb2.Value]
     seed: int
-    def __init__(self, seed: _Optional[int] = ..., options: _Optional[_Mapping[str, _struct_pb2.Value]] = ...) -> None: ...
+    def __init__(
+        self,
+        seed: _Optional[int] = ...,
+        options: _Optional[_Mapping[str, _struct_pb2.Value]] = ...,
+    ) -> None: ...
 
 class Seed(_message.Message):
     __slots__ = ["seed"]
@@ -109,13 +155,18 @@ class Status(_message.Message):
 
 class StepReturn(_message.Message):
     __slots__ = ["info", "obs", "reward", "terminated", "truncated"]
+
     class InfoEntry(_message.Message):
         __slots__ = ["key", "value"]
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
         key: str
         value: _struct_pb2.Value
-        def __init__(self, key: _Optional[str] = ..., value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ...) -> None: ...
+        def __init__(
+            self,
+            key: _Optional[str] = ...,
+            value: _Optional[_Union[_struct_pb2.Value, _Mapping]] = ...,
+        ) -> None: ...
     INFO_FIELD_NUMBER: _ClassVar[int]
     OBS_FIELD_NUMBER: _ClassVar[int]
     REWARD_FIELD_NUMBER: _ClassVar[int]
@@ -126,4 +177,11 @@ class StepReturn(_message.Message):
     reward: float
     terminated: bool
     truncated: bool
-    def __init__(self, obs: _Optional[_Union[NDArray, _Mapping]] = ..., reward: _Optional[float] = ..., terminated: bool = ..., truncated: bool = ..., info: _Optional[_Mapping[str, _struct_pb2.Value]] = ...) -> None: ...
+    def __init__(
+        self,
+        obs: _Optional[_Union[NDArray, _Mapping]] = ...,
+        reward: _Optional[float] = ...,
+        terminated: bool = ...,
+        truncated: bool = ...,
+        info: _Optional[_Mapping[str, _struct_pb2.Value]] = ...,
+    ) -> None: ...

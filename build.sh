@@ -5,4 +5,3 @@ protoc -I./protos/ --python_out=./rlay/ --pyi_out=./rlay/ --rust_out ./rlay-rs/s
 
 #python -m grpc_tools.protoc -I./rlay/protos/ --python_out=./rlay/ --pyi_out=./rlay/ --grpc_python_out=./rlay/ ./rlay/protos/gym_grpc/gym.proto
 #protoc -I./rlay/protos/ --python_out=./rlay/ ./rlay/protos/gym_grpc/gym.proto
-

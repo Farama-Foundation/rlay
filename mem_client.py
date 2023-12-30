@@ -1,7 +1,9 @@
-from rlay import ClientEnv
-
 import numpy as np
 from tqdm import trange
+
+from rlay import ClientEnv
+
+
 env = ClientEnv()
 
 env.reset()

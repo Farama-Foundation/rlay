@@ -17,12 +17,12 @@ Gymnasium API.
 
 There are two possible paradigms -- the environment runs either as a server, or as a client.
 
-ClientEnv has a relatively intuitive interpretation. The server maintains an instance of the environment, 
-and calls its methods according to the MemServer calls. The user (or the RL algorithm) calls the methods of `ClientEnv`, 
+ClientEnv has a relatively intuitive interpretation. The server maintains an instance of the environment,
+and calls its methods according to the MemServer calls. The user (or the RL algorithm) calls the methods of `ClientEnv`,
 which in turn calls the MemServer methods on the server.
 
-ServerEnv works the other way around. It expects that the user creates a server which implements a policy, 
-and the environment lives in a client which can query that policy. When the client queries the server, it sends an observation, 
+ServerEnv works the other way around. It expects that the user creates a server which implements a policy,
+and the environment lives in a client which can query that policy. When the client queries the server, it sends an observation,
 and receives the following observation.
 
 
@@ -48,6 +48,6 @@ ClientBackend - ServerEnv:
 - Backend starts execution, performing initial setup
 - Backend sends an initial request, the response must be a ResetArgs
 - In a loop, Backend sends current ORTTI and listens for a response. Response can be either ResetArgs or Action
-- 
+-
 
 IMPORTANT NOTE: `step` returns only after the backend reaches a new decision step and sends a new request.
