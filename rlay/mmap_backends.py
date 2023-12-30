@@ -17,8 +17,7 @@ class ClientBackend:
         self.communicator = Communicator("rlay", create=False)
 
         self.communicator.send_message(gym_rlay_pb2.GymnasiumMessage(status=True))
-        handshake = self.communicator.receive_message() # handshake
-
+        handshake = self.communicator.receive_message()  # handshake
 
         print(f"Backend client listening on port {port}")
 
@@ -36,11 +35,13 @@ class ClientBackend:
         options = unwrap_dict(msg.reset_args.options)
 
         obs, info = self.env.reset(seed=seed, options=options)
-        reward, terminated, truncated = 0., False, False
+        reward, terminated, truncated = 0.0, False, False
 
         while True:
             # Execute whatever logic. When we need a decision, send the current step return and get the decision
-            msg = create_gymnasium_message(step_return=(obs, reward, terminated, truncated, info))
+            msg = create_gymnasium_message(
+                step_return=(obs, reward, terminated, truncated, info)
+            )
             self.communicator.send_message(msg)  # 1
             response = self.communicator.receive_message()  # 2
 
@@ -52,10 +53,12 @@ class ClientBackend:
                 obs, reward, terminated, truncated, info = self.env.step(action)
 
             elif response.HasField("reset_args"):
-                seed = response.reset_args.seed if response.reset_args.seed != -1 else None
+                seed = (
+                    response.reset_args.seed if response.reset_args.seed != -1 else None
+                )
                 options = unwrap_dict(response.reset_args.options)
                 obs, info = self.env.reset(seed=seed, options=options)
-                reward, terminated, truncated = 0., False, False
+                reward, terminated, truncated = 0.0, False, False
 
             elif response.HasField("close"):
                 self.env.close()
@@ -67,7 +70,6 @@ class ClientBackend:
                 raise ValueError("Received an invalid message")
 
 
-
 class ServerBackend:
     def __init__(self, env_id: str, port: int = 50051, env_kwargs: dict = {}):
         self.env = gym.make(env_id, **env_kwargs)
@@ -77,7 +79,7 @@ class ServerBackend:
 
         print("Waiting for handshake")
         self.communicator.send_message(gym_rlay_pb2.GymnasiumMessage(request=True))
-        self.communicator.receive_message() # handshake
+        self.communicator.receive_message()  # handshake
         self.communicator.send_message(gym_rlay_pb2.GymnasiumMessage(request=True))
 
         print(f"Backend server listening on port {port}")
@@ -99,8 +101,13 @@ class ServerBackend:
         if action.size == 1:
             action = action[0]
         obs, reward, terminated, truncated, info = self.env.step(action)
-        step_return = gym_rlay_pb2.StepReturn(obs=encode(obs), reward=reward, terminated=terminated,
-                                         truncated=truncated, info=wrap_dict(info))
+        step_return = gym_rlay_pb2.StepReturn(
+            obs=encode(obs),
+            reward=reward,
+            terminated=terminated,
+            truncated=truncated,
+            info=wrap_dict(info),
+        )
         response = gym_rlay_pb2.GymnasiumMessage(step_return=step_return)
         self.communicator.send_message(response)
 

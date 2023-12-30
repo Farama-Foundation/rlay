@@ -40,21 +40,21 @@ class Communicator:
 
     def send_message(self, msg: gym_rlay_pb2.GymnasiumMessage):
         serialized_msg = msg.SerializeToString()
-        msg_len = len(serialized_msg).to_bytes(4, byteorder='little')
+        msg_len = len(serialized_msg).to_bytes(4, byteorder="little")
         while self.map[0] != self.active_code:
             pass
         self.map[0] = self.busy_code
-        self.map[1:self.size] = b'\x00' * (self.size - 1)
+        self.map[1 : self.size] = b"\x00" * (self.size - 1)
 
         self.map[1:5] = msg_len
-        self.map[5:len(serialized_msg) + 5] = serialized_msg
+        self.map[5 : len(serialized_msg) + 5] = serialized_msg
         self.map[0] = self.wait_code
 
     def receive_message(self) -> Optional[gym_rlay_pb2.GymnasiumMessage]:
         while self.map[0] != self.active_code:
             pass
-        msg_len = int.from_bytes(self.map[1:5], byteorder='little')
-        serialized_msg = bytes(self.map[5:5 + msg_len])
+        msg_len = int.from_bytes(self.map[1:5], byteorder="little")
+        serialized_msg = bytes(self.map[5 : 5 + msg_len])
         msg = gym_rlay_pb2.GymnasiumMessage()
         msg.ParseFromString(serialized_msg)
         return msg
@@ -64,11 +64,13 @@ class Communicator:
         os.remove(f"/tmp/{self.name}")
 
 
-def create_gymnasium_message(step_return: Optional[tuple[np.ndarray, float, bool, bool, dict[str, Any]]] = None,
-                             reset_return: Optional[tuple[np.ndarray, dict[str, Any]]] = None,
-                             reset_args: Optional[tuple[int, dict[str, Any]]]= None,
-                             action: Optional[np.ndarray] = None,
-                             close: Optional[bool] = None) -> GymnasiumMessage:
+def create_gymnasium_message(
+    step_return: Optional[tuple[np.ndarray, float, bool, bool, dict[str, Any]]] = None,
+    reset_return: Optional[tuple[np.ndarray, dict[str, Any]]] = None,
+    reset_args: Optional[tuple[int, dict[str, Any]]] = None,
+    action: Optional[np.ndarray] = None,
+    close: Optional[bool] = None,
+) -> GymnasiumMessage:
 
     message = GymnasiumMessage()
 
@@ -77,24 +79,31 @@ def create_gymnasium_message(step_return: Optional[tuple[np.ndarray, float, bool
         obs_data = encode(obs)
         info = wrap_dict(info)
 
-        step_return = StepReturn(obs=obs_data,
-                                 reward=reward,
-                                 terminated=terminated,
-                                 truncated=truncated,
-                                 info=info)
+        step_return = StepReturn(
+            obs=obs_data,
+            reward=reward,
+            terminated=terminated,
+            truncated=truncated,
+            info=info,
+        )
         message.step_return.CopyFrom(step_return)
 
     elif reset_return is not None:
         obs, info = reset_return
 
-        reset_return_ = StepReturn(obs=encode(obs), reward=0, terminated=False, truncated=False, info=wrap_dict(info))
+        reset_return_ = StepReturn(
+            obs=encode(obs),
+            reward=0,
+            terminated=False,
+            truncated=False,
+            info=wrap_dict(info),
+        )
 
         message.step_return.CopyFrom(reset_return_)
 
     elif reset_args is not None:
         seed, options = reset_args
-        reset_args = ResetArgs(seed=seed,
-                               options=wrap_dict(options))
+        reset_args = ResetArgs(seed=seed, options=wrap_dict(options))
 
         message.reset_args.CopyFrom(reset_args)
 

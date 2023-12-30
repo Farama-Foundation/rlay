@@ -26,8 +26,6 @@ dependencies = [
     "numpy >=1.21.0",
 ]
 dynamic = ["version"]
-readme = "README.md"
-license = ""
 
 [tool.hatch.version]
 path = "rlay/__init__.py"
