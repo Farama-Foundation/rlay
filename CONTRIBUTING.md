@@ -28,7 +28,7 @@ To run `pyright` for the project, run the pre-commit process (`pre-commit run --
 
 ## Git hooks
 
-The CI will run several checks on the new code pushed to the Gymnasium repository. These checks can also be run locally without waiting for the CI by following the steps below:
+The CI will run several checks on the new code pushed to the RLay repository. These checks can also be run locally without waiting for the CI by following the steps below:
 
 1. [install `pre-commit`](https://pre-commit.com/#install),
 2. Install the Git hooks by running `pre-commit install`.
@@ -38,7 +38,7 @@ The Git hooks can also be run manually with `pre-commit run --all-files`, and if
 **Note:** you may have to run `pre-commit run --all-files` manually a couple of times to make it pass when you commit, as each formatting tool will first format the code and fail the first time but should pass the second time.
 
 Additionally, for pull requests, the project runs a number of tests for the whole project using [pytest](https://docs.pytest.org/en/latest/getting-started.html#install-pytest).
-These tests can be run locally with `pytest` in the root folder. If any doctest is modified, run `pytest --doctest-modules --doctest-continue-on-failure gymnasium` to check the changes.
+These tests can be run locally with `pytest` in the root folder. If any doctest is modified, run `pytest --doctest-modules --doctest-continue-on-failure rlay` to check the changes.
 
 ## Docstrings
 
