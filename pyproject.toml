@@ -1,8 +1,6 @@
-# Package ######################################################################
-
 [build-system]
-requires = ["setuptools >= 61.0.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "rlay"
@@ -28,6 +26,18 @@ dependencies = [
     "numpy >=1.21.0",
 ]
 dynamic = ["version"]
+readme = "README.md"
+license = ""
+
+[tool.hatch.version]
+path = "rlay/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/rlay",
+]
+
+# Package ######################################################################
 
 [project.optional-dependencies]
 # Update dependencies in `all` if any are added or removed
