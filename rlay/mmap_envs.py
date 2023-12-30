@@ -58,6 +58,10 @@ class ServerEnv(gym.Env):
         return obs, reward, terminated, truncated, info
 
     def close(self):
+        msg = self.communicator.receive_message()
+        close_msg = gym_rlay_pb2.GymnasiumMessage(close=True)
+        self.communicator.send_message(close_msg)
+
         self.communicator.close()
 
 
