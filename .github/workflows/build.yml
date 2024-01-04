@@ -31,4 +31,4 @@ jobs:
              --tag rlay-necessary-docker .
       - name: Run tests
         run: |
-           docker run rlay-necessary-docker pytest tests/test_core.py tests/envs/test_compatibility.py tests/envs/test_envs.py tests/spaces
+           docker run rlay-necessary-docker pytest tests/*
