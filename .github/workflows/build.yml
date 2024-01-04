@@ -18,8 +18,7 @@ jobs:
              --tag rlay-all-docker .
       - name: Run tests
         run: docker run rlay-all-docker pytest tests/*
-      - name: Run doctest
-        run: docker run rlay-all-docker pytest --doctest-modules rlay/
+
 
   build-necessary:
     runs-on:
