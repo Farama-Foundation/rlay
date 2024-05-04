@@ -42,15 +42,15 @@ import time
 
 from tests.helper.processes import create_process_from_py_file
 
-def test_environment_interaction():
 
+def test_environment_interaction():
     server_process = create_process_from_py_file(
-        './examples/mmap_rl_server.py',
-        {"PROFILINGFILE":"./tests/logs/profiling/mmap_to_mmap_rl_server.txt"}
+        "./examples/mmap_rl_server.py",
+        {"PROFILINGFILE": "./tests/logs/profiling/mmap_to_mmap_rl_server.txt"},
     )
-    client_process = create_process_from_py_file('./examples/mmap_env_client.py')
-    
-    assert(client_process.wait()==0)
-    
+    client_process = create_process_from_py_file("./examples/mmap_env_client.py")
+
+    assert client_process.wait() == 0
+
     server_process.terminate()
-    server_process.wait() 
+    server_process.wait()

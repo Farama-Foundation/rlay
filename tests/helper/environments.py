@@ -3,6 +3,7 @@ from __future__ import annotations
 import gymnasium as gym
 import numpy as np
 
+
 class EmptyEnv(gym.Env):
     def __init__(self, obs_size: int = 4):
         self.observation_space = gym.spaces.Box(
