@@ -1,5 +1,7 @@
 # RLay
 
+**Aug 11, 2025: This project has been deprecated due to a lack of wide spread community use, and is no longer planned to receive any additional updates or support.**
+
 RLay (pronounced like "relay") is a tool that enables building [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) environments with ~any language or software toolkit.
 
 The main inspiration is interfacing with games built in powerful engines like Unity and Unreal.
